@@ -5,6 +5,6 @@ from app.restful import restful
 def index():
   obj = { 'baihao': 'shuai' }
   return jsonify(
-    message = "ok",
+    message = "success",
     data = obj
   )

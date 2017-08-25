@@ -1,3 +1,5 @@
 .DS_Store
+*.pyc
 yarn.lock
 node_modules
+app/static/*/pages*

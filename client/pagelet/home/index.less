@@ -1,3 +1,107 @@
-a {
-  text-decoration: none;
+#home {
+  margin: 0 auto;
+  width: 890px;
+  >header {
+    margin: 20px 0;
+    color: #27a;
+    font-size: 26px;
+  }
+  .reveal-movie {
+    overflow: hidden;
+    .reveal-title {
+      padding-bottom: 5px;
+      border-bottom: 1px solid #E8E8E8;
+      header {
+        display: inline-block;
+      }
+      .page {
+        float: right;
+        .cur-page, .all-page {
+          color: #666;
+          font-size: 12px;
+        }
+        .left, .right {
+          display: inline-block;
+          background: 0 0 no-repeat;
+          background-size: 100%;
+          width: 20px;
+          height: 20px;
+          vertical-align: top;
+        }
+        .left {
+          width: 19px;
+          height: 19px;
+          background-image: url('/static/img/left.png');
+          margin-right: 5px;
+          margin-left: 15px;
+        }
+        .right {
+          background-image: url('/static/img/right.png');
+        }
+      }
+    }
+    .movie-container {
+      position: relative;
+      display: flex;
+      .photo {
+        padding: 10px;
+      }
+    }
+  }
+  .cur-popular-movie, .cur-popular-tv, .popular-comment {
+    overflow: hidden;
+    > header {
+      padding-bottom: 5px;
+      border-bottom: 1px solid #E8E8E8;
+    }
+    .movie-container, .tv-container {
+      display: flex;
+      width: 200%;
+      position: relative;
+      .slide-page {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        .photo {
+          padding: 10px;
+        }
+      }
+    }
+  }
+  .popular-comment {
+    .comment-container {
+      .comment-item {
+        display: flex;
+        align-items: center;
+        padding: 20px 0;
+        border-bottom: 1px solid #E8E8E8;
+        .comment-avatar {
+          margin-right: 15px;
+          img {
+            width: 68px;
+          }
+        }
+        .comment-mes {
+          .title {
+            color: #37a;
+            font-size: 14px;
+            margin-bottom: 10px;
+          }
+          .user-name {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 10px;
+            span:last-of-type {
+              color: #e09015;
+              font-size: 12px;
+            }
+          }
+          .content {
+            font-size: 12px;
+            line-height: 18px;
+          }
+        }
+      }
+    }
+  }
 }

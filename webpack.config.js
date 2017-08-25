@@ -12,8 +12,8 @@ var entry = {
 var config = {
   entry,
   output: {
-    path: path.resolve(__dirname, './app/static'),
-    filename: 'js/[name].js'
+    path: path.resolve(__dirname, './app/static/'),
+    filename: 'js/pages/[name].js'
   },
   resolve: {
     modules: [path.join(__dirname, "node_modules")]
@@ -64,13 +64,13 @@ var config = {
   devtool: isProduction ? false : '#eval-source-map',
   plugins: [
     new ExtractTextPlugin({
-      filename: "css/[name].css",
+      filename: "css/pages/[name].css",
       disable: false,
       allChunks: true
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
-      filename: 'js/common.js'
+      filename: 'js/pages/common.js'
     })
   ]
 }

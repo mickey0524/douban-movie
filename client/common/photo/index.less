@@ -1,0 +1,39 @@
+.photo {
+  width: 128px;
+  text-align: center;
+  img {
+    width: 128px;
+    cursor: pointer;
+  }
+  .movie-title {
+    display: inline-block;
+    line-height: 24px;
+    cursor: pointer;
+    margin: 5px 0;
+  }
+  .star-num {
+    position: relative;
+    text-align: right;
+    .star {
+      left: 20px;
+      top: 1px;
+      position: absolute;
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: inline-block;
+      width: 70px;
+      height: 10px;
+      background-image: url('/static/img/stars_full.png');
+      &:first-of-type {
+        background-image: url('/static/img/stars_empty.png');
+      }
+    }
+    .num {
+      display: inline-block;
+      padding-right: 15px;
+      color: #e09015;
+      font-size: 12px;
+      vertical-align: top;
+    }
+  }
+}
