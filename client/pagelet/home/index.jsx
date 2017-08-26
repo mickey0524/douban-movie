@@ -33,7 +33,61 @@ class Main extends Component {
     }
   }
 
+  componentDidMount() {
+    // let cycleNum = Math.ceil(this.state.reveal.length / 6 + 1) * 100;
+    let cycleNum = 300;
+    this.timer = setInterval(() => {
+      let curLeft = Number(this.movieContainer.style.left.replace(/[^0-9]/g, ''));
+      let proNum = 0;
+      //console.log(curLeft);
+      let step = () => {
+        if (proNum < 100) {
+          proNum += 1;
+          let nowPrecent = -(curLeft + proNum);
+          // else {
+          this.movieContainer.style.left = nowPrecent + '%';
+          // }
+          if (nowPrecent == -cycleNum) {
+            //proNum = 0;
+            //curLeft = 0;
+            this.movieContainer.style.left = '-100%';
+          }
+          requestAnimationFrame(step);
+        }
+      }
+      requestAnimationFrame(step);
+    }, 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
   render() {
+    let revealGroupLen = Math.ceil(this.state.reveal.length / 6);
+    let lastGroup = this.state.reveal.slice(6 * (revealGroupLen - 1));
+    let lastGroupLen = lastGroup.length;
+    let goRight = lastGroupLen == 6 ? 0 : (6 - lastGroupLen) * 150;
+    let curRevealArr = this.state.reveal.map((item, index) => {
+      return (
+        <a href="https://movie.douban.com/subject/26363254/?from=showing" key={'cur' + index} style={Object.assign({}, (index == this.state.reveal.length - 1) && { marginRight: goRight + 'px' })}>
+          <Photo title={index.toString()}></Photo>
+        </a>
+      );
+    });
+    let leftRevealArr = lastGroup.map((item, index) => {
+      return (
+        <a href="https://movie.douban.com/subject/26363254/?from=showing" key={'left' + index} style={Object.assign({}, (index == lastGroupLen - 1) && { marginRight: goRight + 'px' })}>
+          <Photo title={index.toString()}></Photo>
+        </a>
+      );
+    });
+    let rightRevealArr = this.state.reveal.slice(0, 6).map((item, index) => {
+      return (
+        <a href="https://movie.douban.com/subject/26363254/?from=showing" key={'right' + index}><Photo title={index.toString()}></Photo></a>
+      );
+    });
+    let revealArr = [ ...leftRevealArr, ...curRevealArr, ...rightRevealArr ];
     return (
       <div id="home">
         <header>豆瓣电影分析</header>
@@ -47,14 +101,8 @@ class Main extends Component {
               <span className="right"></span>
             </div>
           </div>
-          <div className="movie-container">
-            {
-              this.state.reveal.map((item, index) => {
-                return (
-                  <a href="https://movie.douban.com/subject/26363254/?from=showing" key={index}><Photo title={index.toString()}></Photo></a>
-                );
-              })
-            }
+          <div className="movie-container" ref={(div) => { this.movieContainer = div; }} style={{ left: '-100%' }}>
+            { revealArr }
           </div>
         </div>
         <div className="cur-popular-movie">
