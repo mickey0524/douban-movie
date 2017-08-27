@@ -1,12 +1,19 @@
 #home {
   margin: 0 auto;
   width: 890px;
-  >header {
-    margin: 20px 0;
-    color: #27a;
-    font-size: 26px;
+  .home-container {
+    display: none;
+    >header {
+      margin: 20px 0;
+      color: #27a;
+      font-size: 26px;
+    }
   }
   .reveal-movie {
+    img {
+      width: 128px;
+      height: 186px;
+    }
     overflow: hidden;
     .reveal-title {
       padding-bottom: 5px;
@@ -57,11 +64,15 @@
       border-bottom: 1px solid #E8E8E8;
     }
     .movie-container, .tv-container {
+      img {
+        width: 128px;
+        height: 186px;
+      }
       display: flex;
-      width: 200%;
+      width: 400%;
       position: relative;
       .slide-page {
-        width: 100%;
+        width: 25%;
         display: flex;
         flex-wrap: wrap;
         .photo {
