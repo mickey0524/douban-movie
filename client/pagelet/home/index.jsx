@@ -136,7 +136,7 @@ class Main extends Component {
     if (this.isScroll[type]) {
       return ;
     }
-    let cycleNum = type == 'reveal' ? (this.state.revealPageNum.allPageNum + 1) * 100 : type == 'popMovie' ? (this.state.popularMovieNum.allPageNum + 1) * 100 : (this.state.popularTvNum.allPageNum + 1) * 100;
+    let cycleNum = type == 'reveal' ? (this.state.revealPageNum.allPageNum + 1) * 100 : type == 'popMovie' ? (this.state.popularMovieNum.allPageNum.length + 1) * 100 : (this.state.popularTvNum.allPageNum.length + 1) * 100;
     let el = type == 'reveal' ? this.revealContainer : type == 'popMovie' ? this.popMovieContainer : this.popTvContainer;
     direction = (direction == 'right' ? 1 : -1);
     this.scrollAnimate(cycleNum, el, type, direction);
@@ -168,6 +168,7 @@ class Main extends Component {
   }
 
   scrollAnimate(cycleNum, el, type, direction) {
+    const SCROLL_SPEED = 4;
     if (type == 'reveal') {
       let pageNum = this.state.revealPageNum;
       let curPageNum = pageNum.curPageNum + direction;
@@ -189,12 +190,12 @@ class Main extends Component {
       pageNum.curPageNum = curPageNum;
       this.setState({ popularTvNum: pageNum });
     }
-    direction *= 4;   //滚动速度
+    direction *= SCROLL_SPEED;   //滚动速度
     this.isScroll[type] = true;
     let curLeft = Number(el.style.left.replace(/[^0-9]/g, ''));
     let proNum = 0;
     let step = () => {
-      if (proNum < 100 / Math.abs(direction)) {
+      if (proNum < 100 / SCROLL_SPEED) {
         proNum += 1;
         let nowPrecent = -(curLeft + proNum * direction);
         el.style.left = nowPrecent + '%';
@@ -215,7 +216,7 @@ class Main extends Component {
 
   onPageDotClick(index, type) {
     let el = type == 'popMovie' ? this.popMovieContainer : this.popTvContainer;
-    let cycleNum = type == 'popMovie' ? (this.state.popularMovieNum.allPageNum + 1) * 100 : (this.state.popularTvNum.allPageNum + 1) * 100;
+    let cycleNum = type == 'popMovie' ? (this.state.popularMovieNum.allPageNum.length + 1) * 100 : (this.state.popularTvNum.allPageNum.length + 1) * 100;
     let pageNum = type == 'popMovie' ? this.state.popularMovieNum : this.state.popularTvNum;
     let direction;
     if (pageNum.curPageNum == 0 && index == pageNum.allPageNum.length - 1) {
