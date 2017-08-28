@@ -1,6 +1,11 @@
 #home {
   margin: 0 auto;
   width: 890px;
+  // a {
+  //   &:active, &:visited {
+  //     list-style: none!important;
+  //   }
+  // }
   .home-container {
     display: none;
     >header {
@@ -69,14 +74,49 @@
         height: 186px;
       }
       display: flex;
-      width: 400%;
+      width: 600%;
       position: relative;
       .slide-page {
-        width: 25%;
+        width: 16.6667%;
         display: flex;
         flex-wrap: wrap;
         .photo {
           padding: 10px;
+        }
+      }
+    }
+    .page-num {
+      text-align: center;
+      .left, .right {
+        display: inline-block;
+        background: 0 0 no-repeat;
+        background-size: 100%;
+        width: 20px;
+        height: 20px;
+        vertical-align: top;
+      }
+      .left {
+        width: 19px;
+        height: 19px;
+        background-image: url('/static/img/left.png');
+        margin-right: 10px;
+      }
+      .right {
+        background-image: url('/static/img/right.png');
+      }
+      .num {
+        display: inline-block;
+        span {
+          vertical-align: middle;
+          display: inline-block;
+          width: 6px;
+          height: 6px;
+          margin-right: 10px;
+          border-radius: 50%;
+          background: #D8D8D8;
+        }
+        .active {
+          background: #6198D7;
         }
       }
     }

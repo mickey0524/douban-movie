@@ -6,10 +6,15 @@
     cursor: pointer;
   }
   .movie-title {
+    width: 100%;
+    color: #333;
     display: inline-block;
     line-height: 24px;
     cursor: pointer;
     margin: 5px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .star-num {
     position: relative;
@@ -34,6 +39,12 @@
       color: #e09015;
       font-size: 12px;
       vertical-align: top;
+    }
+  }
+  .no-score {
+    text-align: center;
+    .num {
+      padding-right: 0;
     }
   }
 }

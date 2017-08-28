@@ -26,7 +26,7 @@ class Movie_index(object):
       list_item = {
         'imgUrl': movie('.poster img').attr('src'),
         'title': movie('.title').text(),
-        'starNum': movie('.rating').text(),
+        'score': movie('.rating').text(),
         'detailUrl': movie('.title a').attr('href')
       }
       if list_item['detailUrl']:
@@ -40,7 +40,7 @@ class Movie_index(object):
       data_list.append({
         'imgUrl': item['cover'],
         'title': item['title'],
-        'starNum': item['rate'],
+        'score': item['rate'],
         'detailUrl': item['url']
       })
     return data_list
