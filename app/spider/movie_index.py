@@ -17,6 +17,7 @@ class Movie_index(object):
 
   def _get_page_source(self):
     r = requests.get(self.url, headers = self.headers)
+    r.encoding = 'utf-8'
     page_source = r.text
     self.doc = pq(fromstring(page_source))
 
