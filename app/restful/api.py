@@ -29,6 +29,6 @@ def movie_detail():
       message = 'error'
     )
   return jsonify(
-    message = 'message',
+    message = 'success',
     data = movie_detail.get_movies()
   )

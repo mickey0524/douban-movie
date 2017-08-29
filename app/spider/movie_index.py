@@ -1,5 +1,6 @@
 import requests
 import json
+import re
 from multiprocessing.dummy import Pool as ThreadPool
 from pyquery import PyQuery as pq
 from lxml.html import fromstring
@@ -24,11 +25,12 @@ class Movie_index(object):
   def _get_reveal_movie(self):
     movie_list = []
     for movie in self.doc('.screening-bd .ui-slide-content').children('li').items():
+      id = re.sub(r'[^0-9]', '', movie('.title a').attr('href'))
       list_item = {
         'imgUrl': movie('.poster img').attr('src'),
         'title': movie('.title').text(),
         'score': movie('.rating').text(),
-        'detailUrl': movie('.title a').attr('href')
+        'detailUrl': '/detail?' + id
       }
       if list_item['detailUrl']:
         movie_list.append(list_item)
@@ -42,16 +44,17 @@ class Movie_index(object):
         'imgUrl': item['cover'],
         'title': item['title'],
         'score': item['rate'],
-        'detailUrl': item['url']
+        'detailUrl': '/detail?' + re.sub(r'[^0-9]', '', item['url'])
       })
     return data_list
 
   def _get_popular_comment(self):
     comment_list = []
     for comment in self.doc('.reviews-bd .review').items():
+      id = re.sub(r'[^0-9]', '', comment('.review-hd a').attr('href'))
       comment_list.append({
         'avatar': comment('.review-hd img').attr('data-original'),
-        'detailUrl': comment('.review-hd a').attr('href'),
+        'detailUrl': '/detail?' + id,
         'title': comment('.review-bd h3').text(),
         'user': comment('.review-meta').children('a:first-child').text(),
         'name': comment('.review-meta').children('a:last-of-type').text(),

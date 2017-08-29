@@ -29,7 +29,7 @@ class Movie_detail(object):
     }
     score_ratio = []
     for item in self.doc('.rating_wrap .ratings-on-weight .item').items():
-      score_ratio.append(item('.rating_per').text())
+      score_ratio.append(item('.rating_per').text()[:-1])
     info['score_ratio'] = score_ratio
     return info
 
@@ -40,7 +40,7 @@ class Movie_detail(object):
     actor_avatars = []
     for item in self.doc('#celebrities li').items():
       actor_avatars.append({
-        'avatar': item.find('.avatar').attr('style'),
+        'avatar': re.sub(r'.*url\(', '', item.find('.avatar').attr('style'))[:-1],
         'name': item('.info .name a').text(),
         'role': item('.info .role').text()
       })

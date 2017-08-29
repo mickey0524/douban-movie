@@ -5,6 +5,6 @@ from flask import render_template
 def home():
   return render_template('main/home.html')
 
-@main.route('/world', methods=['GET'])
+@main.route('/detail', methods=['GET'])
 def detail():
   return render_template('main/detail.html')
