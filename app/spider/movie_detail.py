@@ -80,7 +80,7 @@ class Movie_detail(object):
         'name': info('.author').text(),
         'score': re.sub(r'main-title-rating|allstar', '', info('.main-title-rating').attr('class')).strip(),
         'date': info('.main-meta').text(),
-        'content': item('.main-bd .short-content').text()
+        'content': re.sub(r'\.\.\..*', '', item('.main-bd .short-content').text())
       })
     res['reviews'] = reviews
     return res
