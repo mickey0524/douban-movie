@@ -234,10 +234,12 @@ class Main extends Component {
   }
 
   componentWillMount() {
+    console.log('index');
+  }
+
+  componentDidMount() {
     this.getWebpSupport();
     this.fetchData();
-  }
-  componentDidMount() {
     this.timer = setInterval(() => {
       if (!this.isScroll.reveal) {
         this.scrollAnimate((this.state.revealPageNum.allPageNum + 1) * 100, this.revealContainer, 'reveal', 1);

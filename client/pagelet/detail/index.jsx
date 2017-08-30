@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactEcharts from 'echarts-for-react';
 import fetch from 'isomorphic-fetch';
 import './index.less';
 
@@ -6,6 +7,35 @@ class Main extends Component {
 
   constructor(props) {
     super(props);
+    this.baseOption = {
+      title : {
+        text: '南丁格尔玫瑰图',
+        x:'center'
+      },
+      tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+      },
+      series : [
+        {
+          type:'pie',
+          name: '单词频率',
+          radius : [20, 80],
+          center : ['50%', '50%'],
+          roseType : 'area',
+          data:[
+            {value:10, name:'rose1'},
+            {value:5, name:'rose2'},
+            {value:15, name:'rose3'},
+            {value:25, name:'rose4'},
+            {value:20, name:'rose5'},
+            {value:35, name:'rose6'},
+            {value:30, name:'rose7'},
+            {value:40, name:'rose8'}
+          ]
+        }
+      ]
+    }
     this.state = {
       name: '',
       movie_avatar: '',
@@ -17,9 +47,13 @@ class Main extends Component {
       score: '',
       score_people: '',
       score_ratio: [],
-      summary: ''
+      summary: '',
+      reviewChart: {series: []},
+      commentChart: {series: []}
     }
     this.fetchData = this.fetchData.bind(this);
+    this.getReviewWord = this.getReviewWord.bind(this);
+    this.getCommentWord = this.getCommentWord.bind(this);
   }
 
   fetchData() {
@@ -28,23 +62,60 @@ class Main extends Component {
     fetch(`/api/movie_detail?id=${movieId}`)
     .then(res => res.json())
     .then(data => {
-      console.log(data);
       if (data.message == 'success') {
         this.setState(data.data);
         document.getElementsByClassName('detail-container')[0].style.display = 'block';
       }
     })
     .catch(err => {
-      console.log('movie_index : ' + err);
+      console.log('movie_detail : ' + err);
+    });
+  }
+
+  getReviewWord() {
+    let url = window.location.href;
+    let movieId = url.slice(url.indexOf('?') + 1);
+    fetch(`/api/review_word_frequency?id=${movieId}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.message == 'success') {
+        let reviewChart = JSON.parse(JSON.stringify(this.baseOption));
+        reviewChart.title.text = '影评单词频率分析';
+        reviewChart.series[0].data = data.data;
+        this.setState({reviewChart});
+      }
+    })
+    .catch(err => {
+      console.log('review_word : ' + err);
+    });
+  }
+
+  getCommentWord() {
+    let url = window.location.href;
+    let movieId = url.slice(url.indexOf('?') + 1);
+    fetch(`/api/comment_word_frequency?id=${movieId}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.message == 'success') {
+        let commentChart = JSON.parse(JSON.stringify(this.baseOption));
+        commentChart.title.text = '短评单词频率分析';
+        commentChart.series[0].data = data.data;
+        this.setState({commentChart});
+      }
+    })
+    .catch(err => {
+      console.log('comment_word : ' + err);
     });
   }
 
   componentWillMount() {
-    this.fetchData();
+    console.log('detail');
   }
 
   componentDidMount() {
-    
+    this.fetchData();
+    this.getReviewWord();
+    this.getCommentWord();
   }
 
   render() {
@@ -153,6 +224,10 @@ class Main extends Component {
               }
             </div>
           </div>
+        </div>
+        <div className="figure-group">
+          <ReactEcharts option={this.state.commentChart} />
+          <ReactEcharts option={this.state.reviewChart} />
         </div>
       </div>
     )
