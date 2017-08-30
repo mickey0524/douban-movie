@@ -8,7 +8,7 @@ class Main extends Component {
 
   render() {
     return (
-      <div id="loading">
+      <div className="loading">
         <span></span>
       </div>
     )

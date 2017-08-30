@@ -31,6 +31,7 @@ class Main extends Component {
       console.log(data);
       if (data.message == 'success') {
         this.setState(data.data);
+        document.getElementsByClassName('detail-container')[0].style.display = 'block';
       }
     })
     .catch(err => {

@@ -158,7 +158,7 @@ class Main extends Component {
           popularTv,
           comment
         });
-        document.getElementById('loading').style.display = 'none';
+        document.getElementsByClassName('loading')[0].style.display = 'none';
         document.getElementsByClassName('home-container')[0].style.display = 'block';
       })
     })
