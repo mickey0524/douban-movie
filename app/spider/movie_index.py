@@ -1,7 +1,6 @@
 import requests
 import json
 import re
-from multiprocessing.dummy import Pool as ThreadPool
 from pyquery import PyQuery as pq
 from lxml.html import fromstring
 
@@ -65,13 +64,10 @@ class Movie_index(object):
 
 
   def get_movies(self):
-    pool = ThreadPool(8)
-    reveal_movie = pool.apply_async(self._get_reveal_movie).get()
-    popular_movie = pool.apply_async(self._get_popular, args=(self.popular_movie_url,)).get()
-    popular_tv = pool.apply_async(self._get_popular, args=(self.popular_tv_url,)).get()
-    popular_comment = pool.apply_async(self._get_popular_comment).get()
-    pool.close()
-    pool.join()
+    reveal_movie = self._get_reveal_movie()
+    popular_movie = self._get_popular(self.popular_movie_url)
+    popular_tv = self._get_popular(self.popular_tv_url)
+    popular_comment = self._get_popular_comment()
     return {
       'reveal_movie': reveal_movie,
       'popular_movie': popular_movie,
