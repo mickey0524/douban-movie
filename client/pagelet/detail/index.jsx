@@ -127,7 +127,7 @@ class Main extends Component {
             </div>
           </div>
           <div className="review">
-            <header>短评· · · · · ·</header>
+            <header>影评· · · · · ·</header>
             <div className="review-container">
               {
                 this.state.reviews.map((item, index) => {

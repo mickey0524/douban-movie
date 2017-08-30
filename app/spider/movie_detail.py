@@ -61,9 +61,14 @@ class Movie_detail(object):
     comments, res = [], {}
     for item in self.doc('#comments-section #hot-comments .comment-item').items():
       info = item('.comment .comment-info')
+      score = info('.rating').attr('class')
+      if score:
+        score = re.sub(r'rating|allstar', '', score).strip()
+      else:
+        score = ''
       comments.append({
         'name': info('a').text(),
-        'score': re.sub(r'rating|allstar', '', info('.rating').attr('class')).strip(),
+        'score': score,
         'date': info('.comment-time ').text(),
         'content': item('.comment p').text()
       })
