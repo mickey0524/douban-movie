@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import fetch from 'isomorphic-fetch';
+import echarts from 'echarts';
+import wordCloud from 'echarts-wordcloud';
 import './index.less';
+
+// var echarts = require('echarts');
+// require('echarts-wordcloud');
 
 class Main extends Component {
 
@@ -36,6 +41,50 @@ class Main extends Component {
         }
       ]
     }
+    // this.colorSet = ['#EDD8CB','#BFC0C3','#F59595','#8ECA51','#DFE0E1','#F6CBAD','#BAD4AD','#75839D','#89A9C8','#BFC0C3','#F59595','#8ECA51','#DFE0E1','#f3f9f1',  '#BAD4AD','#75839D','#89A9C8','#BFC0C3'];
+    this.cloudOption = {
+      title : {
+        text: '词云',
+        x:'center'
+      },
+      series: [{
+        type: 'wordCloud',
+        shape: 'cardioid',
+        // maskImage: maskImage,
+        left: 'center',
+        top: 'center',
+        width: '50%',
+        height: '50%',
+        right: null,
+        bottom: null,
+        sizeRange: [12, 60],
+        rotationRange: [-90, 90],
+        rotationStep: 45,
+        gridSize: 8,
+        drawOutOfBound: false,
+        textStyle: {
+          normal: {
+            fontFamily: 'sans-serif',
+            fontWeight: 'bold',
+            color: function () {
+              return 'rgb(' + [
+                Math.round(Math.random() * 160),
+                Math.round(Math.random() * 160),
+                Math.round(Math.random() * 160)
+              ].join(',') + ')';
+            }
+          },
+          emphasis: {
+            shadowBlur: 10,
+            shadowColor: '#333'
+          }
+        },
+        data: [{
+          name: 'Farrah Abraham',
+          value: 366,
+        }]
+      }]
+    }
     this.state = {
       name: '',
       movie_avatar: '',
@@ -54,6 +103,8 @@ class Main extends Component {
     this.fetchData = this.fetchData.bind(this);
     this.getReviewWord = this.getReviewWord.bind(this);
     this.getCommentWord = this.getCommentWord.bind(this);
+    this.getReviewCloud = this.getReviewCloud.bind(this);
+    this.getCommentCloud = this.getCommentCloud.bind(this);
   }
 
   fetchData() {
@@ -80,6 +131,7 @@ class Main extends Component {
     .then(data => {
       if (data.message == 'success') {
         let reviewChart = JSON.parse(JSON.stringify(this.baseOption));
+        this.getReviewCloud(data.data);
         reviewChart.title.text = '影评单词频率分析';
         reviewChart.series[0].data = data.data;
         this.setState({reviewChart});
@@ -98,6 +150,7 @@ class Main extends Component {
     .then(data => {
       if (data.message == 'success') {
         let commentChart = JSON.parse(JSON.stringify(this.baseOption));
+        this.getCommentCloud(data.data);
         commentChart.title.text = '短评单词频率分析';
         commentChart.series[0].data = data.data;
         this.setState({commentChart});
@@ -106,6 +159,28 @@ class Main extends Component {
     .catch(err => {
       console.log('comment_word : ' + err);
     });
+  }
+
+  getReviewCloud(data) {
+    // let cloudData = JSON.parse(JSON.stringify(data));
+    // cloudData.forEach((item) => {
+    //   item.visualMap = false;
+    //   item.itemStyle = { normal: { color: '#DDD' }};
+    // })
+    // data = cloudData;
+    let reviewCloudOption = JSON.parse(JSON.stringify(this.cloudOption));
+    reviewCloudOption.title.text = '影评词云';
+    reviewCloudOption.series[0].data = data;
+    let cloudChart = echarts.init(this.reviewCloud);
+    cloudChart.setOption(reviewCloudOption);
+  }
+
+  getCommentCloud(data) {
+    let commentCloudOption = JSON.parse(JSON.stringify(this.cloudOption));
+    commentCloudOption.title.text = '短评词云';
+    commentCloudOption.series[0].data = data;
+    let cloudChart = echarts.init(this.commentCloud);
+    cloudChart.setOption(commentCloudOption);
   }
 
   componentWillMount() {
@@ -228,6 +303,8 @@ class Main extends Component {
         <div className="figure-group">
           <ReactEcharts option={this.state.commentChart} />
           <ReactEcharts option={this.state.reviewChart} />
+          <div className="wordCloud" ref={(div) => { this.commentCloud = div; }}></div>
+          <div className="wordCloud" ref={(div) => { this.reviewCloud = div; }}></div>
         </div>
       </div>
     )
