@@ -24,7 +24,11 @@ class Movie_index(object):
   def _get_reveal_movie(self):
     movie_list = []
     for movie in self.doc('.screening-bd .ui-slide-content').children('li').items():
-      id = re.sub(r'[^0-9]', '', movie('.title a').attr('href'))
+      id = movie('.title a').attr('href')
+      if id:
+        id = re.sub(r'[^0-9]', '', movie('.title a').attr('href'))
+      else:
+        continue
       list_item = {
         'imgUrl': movie('.poster img').attr('src'),
         'title': movie('.title').text(),
