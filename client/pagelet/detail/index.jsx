@@ -53,8 +53,8 @@ class Main extends Component {
         // maskImage: maskImage,
         left: 'center',
         top: 'center',
-        width: '50%',
-        height: '50%',
+        width: '70%',
+        height: '80%',
         right: null,
         bottom: null,
         sizeRange: [12, 60],
@@ -133,7 +133,7 @@ class Main extends Component {
         let reviewChart = JSON.parse(JSON.stringify(this.baseOption));
         this.getReviewCloud(data.data);
         reviewChart.title.text = '影评单词频率分析';
-        reviewChart.series[0].data = data.data;
+        reviewChart.series[0].data = data.data.slice(0, 30);
         this.setState({reviewChart});
       }
     })
@@ -152,7 +152,7 @@ class Main extends Component {
         let commentChart = JSON.parse(JSON.stringify(this.baseOption));
         this.getCommentCloud(data.data);
         commentChart.title.text = '短评单词频率分析';
-        commentChart.series[0].data = data.data;
+        commentChart.series[0].data = data.data.slice(0, 30);;
         this.setState({commentChart});
       }
     })
@@ -219,7 +219,7 @@ class Main extends Component {
                       return(
                         <div className="item" key={index}>
                           <span className="star-num">{5 - index}星</span>
-                          <span className="bar" style={{width: item * 2 + 'px'}}></span>
+                          <span className="bar" style={{width: item * 1.5 + 'px'}}></span>
                           <span>{item}%</span>
                         </div>
                       );

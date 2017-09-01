@@ -51,7 +51,7 @@ class Comment_word_frequency(object):
         return 1
       return 0
     word_arr = sorted(word_arr, sort_cmp)
-    return word_arr[:30]
+    return word_arr[:50]
 
   def get_frequency(self):
     return self._get_comment_word(10)
