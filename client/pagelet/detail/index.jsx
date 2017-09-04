@@ -41,7 +41,7 @@ class Main extends Component {
         }
       ]
     }
-    // this.colorSet = ['#EDD8CB','#BFC0C3','#F59595','#8ECA51','#DFE0E1','#F6CBAD','#BAD4AD','#75839D','#89A9C8','#BFC0C3','#F59595','#8ECA51','#DFE0E1','#f3f9f1',  '#BAD4AD','#75839D','#89A9C8','#BFC0C3'];
+    this.colorSet = ['#EDD8CB','#BFC0C3','#F59595','#8ECA51','#DFE0E1','#F6CBAD','#BAD4AD','#75839D','#89A9C8','#BFC0C3','#F59595','#8ECA51','#DFE0E1','#f3f9f1',  '#BAD4AD','#75839D','#89A9C8','#BFC0C3'];
     this.cloudOption = {
       title : {
         text: '词云',
@@ -49,7 +49,7 @@ class Main extends Component {
       },
       series: [{
         type: 'wordCloud',
-        shape: 'cardioid',
+        shape: 'circle',
         // maskImage: maskImage,
         left: 'center',
         top: 'center',
@@ -162,12 +162,12 @@ class Main extends Component {
   }
 
   getReviewCloud(data) {
-    // let cloudData = JSON.parse(JSON.stringify(data));
-    // cloudData.forEach((item) => {
-    //   item.visualMap = false;
-    //   item.itemStyle = { normal: { color: '#DDD' }};
-    // })
-    // data = cloudData;
+    let cloudData = JSON.parse(JSON.stringify(data));
+    cloudData.forEach((item) => {
+      item.visualMap = false;
+      item.textStyle = { normal: {color: this.colorSet[Math.floor(Math.random() * this.colorSet.length)]}, emphasis: {} };
+    })
+    data = cloudData;
     let reviewCloudOption = JSON.parse(JSON.stringify(this.cloudOption));
     reviewCloudOption.title.text = '影评词云';
     reviewCloudOption.series[0].data = data;
@@ -176,6 +176,12 @@ class Main extends Component {
   }
 
   getCommentCloud(data) {
+    let cloudData = JSON.parse(JSON.stringify(data));
+    cloudData.forEach((item) => {
+      item.visualMap = false;
+      item.textStyle = { normal: {color: this.colorSet[Math.floor(Math.random() * this.colorSet.length)]}, emphasis: {} };
+    })
+    data = cloudData;
     let commentCloudOption = JSON.parse(JSON.stringify(this.cloudOption));
     commentCloudOption.title.text = '短评词云';
     commentCloudOption.series[0].data = data;
