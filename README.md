@@ -3,7 +3,7 @@
 
 ## 前言
 
-最近沉迷python，加之想用react做一个多页项目，于是花费工作空闲时间完成了这个网站
+最近沉迷python，加之想用react做一个多页项目，于是花费工作空闲时间完成了这个网站，有关python爬虫的基础可以参考我的另外一个github仓库，[python爬虫基础](https://github.com/mickey0524/web-crawler)，有关flask初始化项目的脚手架可以参考这个github仓库，[flask 脚手架](https://github.com/mickey0524/flask-template)
 
 ## 技术栈
 
