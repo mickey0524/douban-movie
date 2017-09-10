@@ -2,6 +2,7 @@ import requests
 import re
 from pyquery import PyQuery as pq
 from lxml.html import fromstring
+from multiprocessing.dummy import Pool as ThreadPool
 
 class Movie_detail(object):
 
@@ -91,20 +92,27 @@ class Movie_detail(object):
 
 
   def get_movies(self):
+    pool = ThreadPool(8)
+
+    info = pool.apply_async(self._get_info)
+
+    summary = pool.apply_async(self._get_summary)
+
+    recommendations = pool.apply_async(self._get_recommendation)
+
+    comments = pool.apply_async(self._get_comment)
+
+    reviews = pool.apply_async(self._get_review)
+
+    pool.close()
+    pool.join()
+
     result = {}
+    result.update(info.get())
+    result.update(summary.get())
+    result.update(recommendations.get())
+    result.update(comments.get())
+    result.update(reviews.get())
 
-    info = self._get_info()
-    result.update(info)
 
-    summary = self._get_summary()
-    result.update(summary)
-
-    recommendations = self._get_recommendation()
-    result.update(recommendations)
-
-    comments = self._get_comment()
-    result.update(comments)
-
-    reviews = self._get_review()
-    result.update(reviews)
     return result
